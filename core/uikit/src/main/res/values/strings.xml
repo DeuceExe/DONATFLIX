@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AcademyHomework</string>
+    <string name="best_popular_films">ЛУЧШИЕ ФИЛЬМЫ</string>
+    <string name="horrors">УЖАСЫ</string>
+    <string name="genre">Жанры: %s</string>
+    <string name="year">Год: %s</string>
+    <string name="country">Страны: %s</string>
+    <string name="donatflix">DONATFLIX</string>
+</resources>
