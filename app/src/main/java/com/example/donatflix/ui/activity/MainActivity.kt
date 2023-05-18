@@ -7,6 +7,7 @@ import com.example.donatflix.databinding.ActivityMainBinding
 import com.example.api.IFilmFragmentLauncher
 import com.example.api.IFilmFragmentReplace
 import com.example.donatflix.R
+import com.example.impl.presentation.fragments.film.adapter.slide.SliderPagerAdapter
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

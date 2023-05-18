@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.viewpager.widget.ViewPager
 import com.example.impl.rest.IFilmsApi
 import com.example.impl.presentation.fragments.film.FilmsFragment.Companion.ACTION
 import com.example.impl.presentation.fragments.film.FilmsFragment.Companion.HORROR

@@ -1,7 +1,8 @@
 package com.example.impl.presentation.fragments.film
 
-import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +10,21 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.api.IFilmFragment
 import com.example.api.IFilmFragmentReplace
 import com.example.impl.R
 import com.example.impl.databinding.FragmentFilmsBinding
 import com.example.impl.model.CurrentFilm
-import com.example.impl.presentation.fragments.film.adapter.FilmAdapter
+import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
+import com.example.impl.presentation.fragments.film.adapter.slide.SliderPagerAdapter
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
+import java.util.Timer
+import java.util.TimerTask
 
 class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
@@ -26,6 +33,8 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     private var _binding: FragmentFilmsBinding? = null
 
     private var replaceInterface: IFilmFragmentReplace? = null
+
+    private lateinit var timer: Timer
 
     val binding get() = requireNotNull(_binding)
 
@@ -47,6 +56,7 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     private fun initObserver() {
         viewModel.actionFilmList.observe(viewLifecycleOwner) { actionFilmList ->
             setAdapter(actionFilmList, binding.bestFilmRv)
+            setSlideAdapter(actionFilmList, binding.sliderPager)
         }
 
         viewModel.horrorFilmList.observe(viewLifecycleOwner) { horrorFilmList ->
@@ -58,6 +68,26 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
         val filmAdapter = FilmAdapter(filmList) { onFilmClick(it) }
         recyclerView.adapter = filmAdapter
         filmAdapter.notifyDataSetChanged()
+    }
+
+    private fun setSlideAdapter(slideList: List<CurrentFilm>, viewPager: ViewPager2){
+        val sliderAdapter = SliderPagerAdapter(slideList) {}
+        val tabLayout = binding.indicator
+        viewPager.adapter = sliderAdapter
+
+        TabLayoutMediator(tabLayout, viewPager) { _, _ ->
+        }.attach()
+
+        timer = Timer()
+        timer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                Handler(Looper.getMainLooper()).post {
+                    if (sliderAdapter.itemCount != 0) {
+                        viewPager.currentItem = (viewPager.currentItem + 1) % sliderAdapter.itemCount
+                    }
+                }
+            }
+        }, 5000, 5000)
     }
 
     private fun onFilmClick(id: Int) {
@@ -82,9 +112,10 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        replaceInterface = null
+    override fun onDestroy() {
+        super.onDestroy()
+
+        timer.cancel()
     }
 
     companion object {
