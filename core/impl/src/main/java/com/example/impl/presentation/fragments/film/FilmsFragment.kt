@@ -1,5 +1,7 @@
 package com.example.impl.presentation.fragments.film
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,14 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.api.IFilmFragment
-import com.example.api.IFilmFragmentReplace
 import com.example.impl.R
 import com.example.impl.databinding.FragmentFilmsBinding
 import com.example.impl.model.CurrentFilm
+import com.example.impl.model.Trailer
 import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
 import com.example.impl.presentation.fragments.film.adapter.slide.SliderPagerAdapter
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
@@ -31,8 +32,6 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     private val viewModel by viewModel<FilmViewModel>()
 
     private var _binding: FragmentFilmsBinding? = null
-
-    private var replaceInterface: IFilmFragmentReplace? = null
 
     private lateinit var timer: Timer
 
@@ -56,11 +55,14 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     private fun initObserver() {
         viewModel.actionFilmList.observe(viewLifecycleOwner) { actionFilmList ->
             setAdapter(actionFilmList, binding.bestFilmRv)
-            setSlideAdapter(actionFilmList, binding.sliderPager)
         }
 
         viewModel.horrorFilmList.observe(viewLifecycleOwner) { horrorFilmList ->
             setAdapter(horrorFilmList, binding.horrorFilmRv)
+        }
+
+        viewModel.bestFilmList.observe(viewLifecycleOwner) { bestFilmList ->
+            setSlideAdapter(bestFilmList, binding.sliderPager)
         }
     }
 
@@ -70,8 +72,8 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
         filmAdapter.notifyDataSetChanged()
     }
 
-    private fun setSlideAdapter(slideList: List<CurrentFilm>, viewPager: ViewPager2){
-        val sliderAdapter = SliderPagerAdapter(slideList) {}
+    private fun setSlideAdapter(slideList: List<CurrentFilm>, viewPager: ViewPager2) {
+        val sliderAdapter = SliderPagerAdapter(slideList) { onTrailerClick(slideList[it]) }
         val tabLayout = binding.indicator
         viewPager.adapter = sliderAdapter
 
@@ -83,7 +85,8 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
             override fun run() {
                 Handler(Looper.getMainLooper()).post {
                     if (sliderAdapter.itemCount != 0) {
-                        viewPager.currentItem = (viewPager.currentItem + 1) % sliderAdapter.itemCount
+                        viewPager.currentItem =
+                            (viewPager.currentItem + 1) % sliderAdapter.itemCount
                     }
                 }
             }
@@ -103,6 +106,33 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
             ?.addToBackStack(null)
             ?.commit()
     }
+
+
+
+
+
+
+    private fun onTrailerClick(trailerLink: CurrentFilm) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink.video.trailer.url.toString()))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("force_fullscreen", true)
+        intent.setClassName(
+            "com.google.android.youtube",
+            "com.google.android.youtube.WatchActivity"
+        )
+
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink.video.trailer.url.toString()))
+            startActivity(webIntent)
+        }
+    }
+
+
+
+
+
 
     private fun initUi() {
         binding.horrorFilmRv.layoutManager =

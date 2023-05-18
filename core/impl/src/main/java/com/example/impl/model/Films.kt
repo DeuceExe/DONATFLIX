@@ -21,6 +21,10 @@ data class CategoryNames(
     val name: String
 )
 
+data class UrlNames(
+    val name: String
+)
+
 data class Poster(
     val url: String
 )
@@ -34,7 +38,7 @@ data class Video(
     val trailer: Trailer
 )
 data class Trailer(
-    val url : String,
+    val url : List<UrlNames>,
     val name : String,
     val site : String,
     val type : String,

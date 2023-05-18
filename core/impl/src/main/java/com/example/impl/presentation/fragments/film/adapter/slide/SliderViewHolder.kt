@@ -13,7 +13,7 @@ class SliderViewHolder(
     fun bind(item: CurrentFilm) {
         with(binding) {
             Glide.with(itemView)
-                .load(item.poster.url)
+                .load(item.backdrop.url)
                 .into(imageTrailer)
             tvTrailerTitle.text = item.name
         }

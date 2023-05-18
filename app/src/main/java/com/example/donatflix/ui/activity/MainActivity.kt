@@ -5,13 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.donatflix.databinding.ActivityMainBinding
 import com.example.api.IFilmFragmentLauncher
-import com.example.api.IFilmFragmentReplace
 import com.example.donatflix.R
-import com.example.impl.presentation.fragments.film.adapter.slide.SliderPagerAdapter
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class MainActivity : AppCompatActivity(), IFilmFragmentReplace, KoinComponent {
+class MainActivity : AppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -30,15 +28,7 @@ class MainActivity : AppCompatActivity(), IFilmFragmentReplace, KoinComponent {
     private fun setFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, fragment, "$fragment")
-            .commit()
-    }
-
-    override fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
             .replace(R.id.container, fragment)
-            .addToBackStack(null)
             .commit()
     }
 }

@@ -1,5 +1,7 @@
 package com.example.impl.presentation.fragments.film.filmDetails
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +51,9 @@ class FilmDetailFragment : Fragment(), KoinComponent {
 
     private fun setUiData() {
         with(binding) {
+            Glide.with(this@FilmDetailFragment)
+                .load(viewModel.currentFilm.value?.backdrop?.url)
+                .into(detailMovieCover)
             tvDetailTitle.text = viewModel.currentFilm.value?.name
             tvDetailGenre.text = resources.getString(R.string.genre, viewModel.genres.value)
             tvDetailYear.text = resources.getString(
@@ -58,6 +63,23 @@ class FilmDetailFragment : Fragment(), KoinComponent {
             tvDetailDescription.text = viewModel.currentFilm.value?.description
         }
     }
+
+  /*  private fun loadTrailer(){
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink.video.trailer.url))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("force_fullscreen", true)
+        intent.setClassName(
+            "com.google.android.youtube",
+            "com.google.android.youtube.WatchActivity"
+        )
+
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink.video.trailer.url))
+            startActivity(webIntent)
+        }
+    }*/
 
     private fun initObserver() {
         viewModel.currentFilm.observe(viewLifecycleOwner) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.impl.model.CategoryNames
 import com.example.impl.model.CurrentFilm
+import com.example.impl.model.UrlNames
 import com.example.impl.rest.IFilmsApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

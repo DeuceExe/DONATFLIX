@@ -22,9 +22,14 @@ class FilmViewModel(private val serviceApi: IFilmsApi) : ViewModel(), KoinCompon
     private val _horrorFilmList = MutableLiveData<List<CurrentFilm>>()
     val horrorFilmList: LiveData<List<CurrentFilm>> get() = _horrorFilmList
 
+    private val _bestFilmList = MutableLiveData<List<CurrentFilm>>()
+
+    val bestFilmList: LiveData<List<CurrentFilm>> get() = _bestFilmList
+
     init {
         initFilmList(ACTION)
         initFilmList(HORROR)
+        initTrailerList()
     }
 
     private fun initFilmList(genre: String) {
@@ -33,13 +38,27 @@ class FilmViewModel(private val serviceApi: IFilmsApi) : ViewModel(), KoinCompon
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = serviceApi.getFilmByGenre(genre)
-                if (result.isSuccessful) {
+                val genreRequest = serviceApi.getFilmByGenre(genre)
+                if (genreRequest.isSuccessful) {
                     when (genre) {
-                        ACTION -> _actionFilmList.postValue(result.body()?.docs)
-                        HORROR -> _horrorFilmList.postValue(result.body()?.docs)
+                        ACTION -> _actionFilmList.postValue(genreRequest.body()?.docs)
+                        HORROR -> _horrorFilmList.postValue(genreRequest.body()?.docs)
                         else -> {}
                     }
+                }
+            }
+        }
+    }
+
+    private fun initTrailerList(){
+        _bestFilmList.value = listOf()
+
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val bestRequest = serviceApi.getBestFilms()
+
+                if (bestRequest.isSuccessful){
+                    _bestFilmList.postValue(bestRequest.body()?.docs)
                 }
             }
         }

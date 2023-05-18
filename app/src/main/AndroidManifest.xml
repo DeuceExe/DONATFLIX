@@ -9,10 +9,11 @@
         android:name=".BaseApplication"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@drawable/ic_logo"
         android:label="DONATFLIX"
         android:theme="@style/Theme.Donatflix"
-        tools:targetApi="31">
+        tools:targetApi="33">
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true"
