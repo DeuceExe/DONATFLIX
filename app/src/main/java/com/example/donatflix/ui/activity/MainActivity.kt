@@ -5,11 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.donatflix.databinding.ActivityMainBinding
 import com.example.api.IFilmFragmentLauncher
+import com.example.api.IFilmFragmentReplace
 import com.example.donatflix.R
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class MainActivity : AppCompatActivity(), KoinComponent {
+class MainActivity : AppCompatActivity(), IFilmFragmentReplace, KoinComponent {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -23,8 +24,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         val launcher: IFilmFragmentLauncher by inject()
 
         setFragment(launcher.launch() as Fragment)
-        val bundle = Bundle()
-        bundle.putString("app", "app started")
     }
 
     private fun setFragment(fragment: Fragment) {
@@ -34,10 +33,10 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             .commit()
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    override fun replaceFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, fragment, "$fragment")
+            .replace(R.id.container, fragment)
             .addToBackStack(null)
             .commit()
     }

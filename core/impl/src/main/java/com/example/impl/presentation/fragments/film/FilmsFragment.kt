@@ -1,5 +1,6 @@
 package com.example.impl.presentation.fragments.film
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.IFilmFragment
+import com.example.api.IFilmFragmentReplace
 import com.example.impl.R
 import com.example.impl.databinding.FragmentFilmsBinding
-import com.example.impl.presentation.fragments.film.adapter.FilmAdapter
 import com.example.impl.model.CurrentFilm
+import com.example.impl.presentation.fragments.film.adapter.FilmAdapter
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
@@ -22,9 +24,10 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     private val viewModel by viewModel<FilmViewModel>()
 
     private var _binding: FragmentFilmsBinding? = null
+
+    private var replaceInterface: IFilmFragmentReplace? = null
+
     val binding get() = requireNotNull(_binding)
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,12 +66,12 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
         fragment.arguments = Bundle().apply {
             putInt(FilmDetailFragment.BUNDLE, id)
         }
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragment_container, fragment, "findThisFragment")
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.replace(R.id.fragment_container, fragment)
             ?.addToBackStack(null)
             ?.commit()
-
-        (requireActivity() as MainActivity).replaceFragment(fragment)
     }
 
     private fun initUi() {
@@ -77,6 +80,11 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
         binding.bestFilmRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        replaceInterface = null
     }
 
     companion object {
