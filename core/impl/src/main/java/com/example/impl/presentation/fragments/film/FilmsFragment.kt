@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,8 @@ import com.example.impl.presentation.fragments.film.adapter.slide.SliderPagerAda
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 import java.util.Timer
@@ -50,6 +52,7 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchProcessing()
         initUi()
         initObserver()
     }
@@ -61,6 +64,10 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
         viewModel.horrorFilmList.observe(viewLifecycleOwner) { horrorFilmList ->
             setAdapter(horrorFilmList, binding.horrorFilmRv)
+        }
+
+        viewModel.searchFilmList.observe(viewLifecycleOwner) { searchFilmList ->
+            setAdapter(searchFilmList, binding.searchFilmRv)
         }
 
         viewModel.bestFilmList.observe(viewLifecycleOwner) { bestFilmList ->
@@ -134,17 +141,27 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun searchFilm(){
-        binding.searchFilmView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
-            }
+    private fun searchProcessing(){
+        if(binding.searchFilmView.isNotEmpty()) {
+            binding.searchFilmRv.visibility = View.VISIBLE
+            binding.searchFilmView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.searchFilmAsync(query)
+                    }
+                    return true
+                }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                //CoroutineScope()
-                TODO("Not yet implemented")
-            }
-        })
+                override fun onQueryTextChange(newText: String): Boolean {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.searchFilmAsync(newText)
+                    }
+                    return true
+                }
+            })
+        } else {
+            binding.searchFilmRv.visibility = View.GONE
+        }
     }
 
     override fun onDestroy() {

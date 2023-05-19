@@ -13,11 +13,11 @@ interface IFilmsApi {
     @GET("v1.3/movie?selectFields=id&selectFields=name&selectFields=description&selectFields=poster.url&selectFields=backdrop.url&selectFields=videos.trailers.url&selectFields=videos.trailers.site&selectFields=year&selectFields=countries.name&selectFields=genres.name&selectFields=backdrop.url&selectFields=persons.photo&selectFields=persons.name&page=1&videos.trailers.site=youtube")
     suspend fun getFilmById(@Query("id") id: Int): Response<Films>
 
-    @GET("v1.3/movie?selectFields=id&selectFields=name&selectFields=description&selectFields=backdrop.url&selectFields=videos.trailers.url&page=1&limit=10")
-    suspend fun getBestFilms(): Response<Films>
+    @GET("v1.3/movie")
+    suspend fun searchFilm(@Query("name") name: String) : Response<Films>
 
     @GET("v1.3/movie")
-    suspend fun test(
+    suspend fun getBestFilms(
         @Query("selectFields") id: String? = "id",
         @Query("selectFields") name: String? = "name",
         @Query("selectFields") description: String? = "description",

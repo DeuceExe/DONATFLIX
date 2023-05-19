@@ -2,11 +2,11 @@ package com.example.impl.presentation.fragments.film.adapter.slide
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.impl.databinding.SlideItemBinding
+import com.example.impl.databinding.ItemSlideBinding
 import com.example.impl.model.CurrentFilm
 
 class SliderViewHolder(
-    private val binding: SlideItemBinding,
+    private val binding: ItemSlideBinding,
     private val trailerClickListener: (String) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 

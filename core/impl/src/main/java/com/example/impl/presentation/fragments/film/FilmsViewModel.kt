@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.viewpager.widget.ViewPager
 import com.example.impl.rest.IFilmsApi
 import com.example.impl.presentation.fragments.film.FilmsFragment.Companion.ACTION
 import com.example.impl.presentation.fragments.film.FilmsFragment.Companion.HORROR
 import com.example.impl.model.CurrentFilm
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
@@ -25,6 +25,10 @@ class FilmViewModel(private val serviceApi: IFilmsApi) : ViewModel(), KoinCompon
     private val _bestFilmList = MutableLiveData<List<CurrentFilm>>()
 
     val bestFilmList: LiveData<List<CurrentFilm>> get() = _bestFilmList
+
+    private val _searchFilmList = MutableLiveData<List<CurrentFilm>>()
+
+    val searchFilmList: LiveData<List<CurrentFilm>> get() = _searchFilmList
 
     init {
         initFilmList(ACTION)
@@ -50,17 +54,31 @@ class FilmViewModel(private val serviceApi: IFilmsApi) : ViewModel(), KoinCompon
         }
     }
 
-    private fun initTrailerList(){
+    private fun initTrailerList() {
         _bestFilmList.value = listOf()
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val bestRequest = serviceApi.test()
-
-                if (bestRequest.isSuccessful){
+                val bestRequest = serviceApi.getBestFilms()
+                if (bestRequest.isSuccessful) {
                     _bestFilmList.postValue(bestRequest.body()?.docs)
                 }
             }
         }
+    }
+
+    suspend fun searchFilmAsync(query: String): MutableLiveData<List<CurrentFilm>> {
+        delay(1500)
+
+        viewModelScope.launch {
+            withContext(Dispatchers.Main) {
+                _searchFilmList.value = listOf()
+                val searchRequest = serviceApi.searchFilm(query)
+                if (searchRequest.isSuccessful) {
+                    _searchFilmList.postValue(searchRequest.body()?.docs)
+                }
+            }
+        }
+        return _searchFilmList
     }
 }
