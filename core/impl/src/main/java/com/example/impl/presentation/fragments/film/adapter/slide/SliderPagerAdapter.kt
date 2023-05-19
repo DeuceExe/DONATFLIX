@@ -8,7 +8,7 @@ import com.example.impl.model.CurrentFilm
 
 class SliderPagerAdapter(
     private val slideList: List<CurrentFilm>,
-    private val trailerClickListener: (Int) -> Unit
+    private val trailerClickListener: (String) -> Unit
 ) : RecyclerView.Adapter<SliderViewHolder>() {
 
     private lateinit var binding: SlideItemBinding

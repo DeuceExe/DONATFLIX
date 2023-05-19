@@ -12,7 +12,7 @@ data class CurrentFilm(
     val countries: List<CategoryNames>,
     val poster: Poster,
     val backdrop: Backdrop,
-    val video: Video,
+    val videos: Videos,
     val cast: Persons,
     val id: Int
 )
@@ -34,15 +34,11 @@ data class Backdrop(
     val previewUrl : String
 )
 
-data class Video(
-    val trailer: Trailer
+data class Videos(
+    val trailers: List<Trailers>
 )
-data class Trailer(
-    val url : List<UrlNames>,
-    val name : String,
-    val site : String,
-    val type : String,
-    val size : Int
+data class Trailers(
+    val url : String
 )
 
 data class Persons(

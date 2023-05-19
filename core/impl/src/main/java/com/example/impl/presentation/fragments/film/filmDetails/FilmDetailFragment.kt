@@ -35,6 +35,7 @@ class FilmDetailFragment : Fragment(), KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadTrailer()
         initObserver()
         arguments?.let {
             CoroutineScope(Job()).launch {
@@ -64,22 +65,25 @@ class FilmDetailFragment : Fragment(), KoinComponent {
         }
     }
 
-  /*  private fun loadTrailer(){
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink.video.trailer.url))
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra("force_fullscreen", true)
-        intent.setClassName(
-            "com.google.android.youtube",
-            "com.google.android.youtube.WatchActivity"
-        )
+    private fun loadTrailer(){
 
-        try {
-            startActivity(intent)
-        } catch (e: Exception) {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink.video.trailer.url))
-            startActivity(webIntent)
+        binding.detailMovieCover.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.currentFilm.value?.videos?.trailers?.get(0)?.url))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtra("force_fullscreen", true)
+            intent.setClassName(
+                "com.google.android.youtube",
+                "com.google.android.youtube.WatchActivity"
+            )
+
+            try {
+                startActivity(intent)
+            } catch (e: Exception) {
+                val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.currentFilm.value?.videos?.trailers?.get(0)?.url))
+                startActivity(webIntent)
+            }
         }
-    }*/
+    }
 
     private fun initObserver() {
         viewModel.currentFilm.observe(viewLifecycleOwner) {

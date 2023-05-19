@@ -7,8 +7,8 @@ import com.example.impl.model.CurrentFilm
 
 class SliderViewHolder(
     private val binding: SlideItemBinding,
-    private val trailerClickListener: (Int) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root) {
+    private val trailerClickListener: (String) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: CurrentFilm) {
         with(binding) {
@@ -19,7 +19,13 @@ class SliderViewHolder(
         }
 
         binding.btnPlay.setOnClickListener {
-            trailerClickListener.invoke(item.id)
+            var url = ""
+            item.videos.trailers.forEach {
+                if(it.url.contains("youtube")){
+                    url = it.url
+                }
+            }
+            trailerClickListener.invoke(url)
         }
     }
 }

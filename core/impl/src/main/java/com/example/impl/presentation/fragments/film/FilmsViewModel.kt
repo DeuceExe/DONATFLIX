@@ -55,7 +55,7 @@ class FilmViewModel(private val serviceApi: IFilmsApi) : ViewModel(), KoinCompon
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val bestRequest = serviceApi.getBestFilms()
+                val bestRequest = serviceApi.test()
 
                 if (bestRequest.isSuccessful){
                     _bestFilmList.postValue(bestRequest.body()?.docs)

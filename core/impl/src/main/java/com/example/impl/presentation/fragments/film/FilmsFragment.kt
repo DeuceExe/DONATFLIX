@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,11 +18,12 @@ import com.example.api.IFilmFragment
 import com.example.impl.R
 import com.example.impl.databinding.FragmentFilmsBinding
 import com.example.impl.model.CurrentFilm
-import com.example.impl.model.Trailer
 import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
 import com.example.impl.presentation.fragments.film.adapter.slide.SliderPagerAdapter
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 import java.util.Timer
@@ -73,7 +75,7 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     }
 
     private fun setSlideAdapter(slideList: List<CurrentFilm>, viewPager: ViewPager2) {
-        val sliderAdapter = SliderPagerAdapter(slideList) { onTrailerClick(slideList[it]) }
+        val sliderAdapter = SliderPagerAdapter(slideList) { onTrailerClick(it) }
         val tabLayout = binding.indicator
         viewPager.adapter = sliderAdapter
 
@@ -107,13 +109,8 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
             ?.commit()
     }
 
-
-
-
-
-
-    private fun onTrailerClick(trailerLink: CurrentFilm) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink.video.trailer.url.toString()))
+    private fun onTrailerClick(trailerLink: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink))
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("force_fullscreen", true)
         intent.setClassName(
@@ -124,15 +121,10 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
         try {
             startActivity(intent)
         } catch (e: Exception) {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink.video.trailer.url.toString()))
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink))
             startActivity(webIntent)
         }
     }
-
-
-
-
-
 
     private fun initUi() {
         binding.horrorFilmRv.layoutManager =
@@ -140,6 +132,19 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
         binding.bestFilmRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun searchFilm(){
+        binding.searchFilmView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                //CoroutineScope()
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     override fun onDestroy() {
