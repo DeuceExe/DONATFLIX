@@ -10,4 +10,5 @@
     <color name="background_menu">#151F2C</color>
     <color name="text">#78909C</color>
     <color name="app_name">#e50914</color>
+    <color name="transparent">#00ffffff</color>
 </resources>

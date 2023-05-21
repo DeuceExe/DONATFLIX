@@ -13,7 +13,8 @@
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTitleFilm"
@@ -25,6 +26,7 @@
         app:layout_constraintEnd_toEndOf="@id/imageFilm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageFilm"
+        tools:background="@color/background_menu"
         tools:text="Title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

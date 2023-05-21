@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_detail_container"
     android:background="@color/background_menu">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:id="@+id/detail_movie_cover"
             android:layout_width="0dp"
             android:layout_height="245dp"
+            android:foreground="@drawable/gradient_background"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:foreground="@drawable/gradient_background"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <ImageView
@@ -23,71 +30,98 @@
             android:layout_width="125dp"
             android:layout_height="175dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toTopOf="@+id/tvDetailDescription"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@tools:sample/avatars" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvDetailTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/tvDetailGenre"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvDetailGenre"
-            app:layout_constraintTop_toBottomOf="@id/detail_movie_cover"/>
+            app:layout_constraintTop_toBottomOf="@id/detail_movie_cover"
+            tools:text="Title" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvDetailGenre"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="15dp"
+            android:padding="5dp"
             android:textColor="@color/text"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/imageDetailFilm"
-            app:layout_constraintTop_toBottomOf="@id/tvDetailTitle" />
+            app:layout_constraintTop_toBottomOf="@id/tvDetailTitle"
+            tools:text="Genre" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvDetailYear"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
+            android:padding="5dp"
             android:textColor="@color/text"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imageDetailFilm"
-            app:layout_constraintTop_toBottomOf="@id/tvDetailGenre" />
+            app:layout_constraintTop_toBottomOf="@id/tvDetailGenre"
+            tools:text="Year" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvDetailCountry"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
+            android:padding="5dp"
             android:textColor="@color/text"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/imageDetailFilm"
-            app:layout_constraintTop_toBottomOf="@id/tvDetailYear" />
+            app:layout_constraintTop_toBottomOf="@id/tvDetailYear"
+            tools:text="Country" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvDetailDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="5dp"
+            android:padding="5dp"
             android:textColor="@color/text"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_cast"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDetailCountry" />
+            app:layout_constraintTop_toBottomOf="@id/tvDetailCountry"
+            tools:text="Description sdklfjgsdlfigjsfdl;kg jsdlfk;gj sdflkgj sdflk;gj sdflk;gj sdlk;fgj sdl;fgj sdl;fkgj sdl;kfgjsdl;kfgj sdfoigjsdfolpkg jsdf;lkgj sdfl;kg jsfdlk;g jsdofilg jsdfl;kg jsdfl;kg jsdfpolkg jsdfl;kgj sd;lfjgbsrpoeijg seopirgj sdofg jsfd;lkg msfdtl;khmnsrto;ihnjsf" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_cast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvDetailDescription"
+            app:layout_constraintEnd_toEndOf="@id/tvDetailDescription"
+            app:layout_constraintTop_toBottomOf="@id/tvDetailDescription"
+            android:textColor="@color/white"
+            tools:text="Cast"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_cast"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

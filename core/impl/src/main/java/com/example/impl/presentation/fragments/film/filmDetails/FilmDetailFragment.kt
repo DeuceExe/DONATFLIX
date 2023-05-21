@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.uikit.R
 import com.example.impl.databinding.FragmentFilmDetailBinding
+import com.example.impl.model.CurrentFilm
+import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -50,6 +53,16 @@ class FilmDetailFragment : Fragment(), KoinComponent {
             .into(binding.imageDetailFilm)
     }
 
+    private fun setAdapter(
+        filmList: List<CurrentFilm>,
+        recyclerView: RecyclerView,
+        isSearch: Boolean = false
+    ) {
+        val filmAdapter = FilmAdapter(filmList, isSearch) {}
+        recyclerView.adapter = filmAdapter
+        filmAdapter.notifyDataSetChanged()
+    }
+
     private fun setUiData() {
         with(binding) {
             Glide.with(this@FilmDetailFragment)
@@ -65,10 +78,13 @@ class FilmDetailFragment : Fragment(), KoinComponent {
         }
     }
 
-    private fun loadTrailer(){
+    private fun loadTrailer() {
 
         binding.detailMovieCover.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.currentFilm.value?.videos?.trailers?.get(0)?.url))
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(viewModel.currentFilm.value?.videos?.trailers?.get(0)?.url)
+            )
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("force_fullscreen", true)
             intent.setClassName(
@@ -79,7 +95,10 @@ class FilmDetailFragment : Fragment(), KoinComponent {
             try {
                 startActivity(intent)
             } catch (e: Exception) {
-                val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(viewModel.currentFilm.value?.videos?.trailers?.get(0)?.url))
+                val webIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(viewModel.currentFilm.value?.videos?.trailers?.get(0)?.url)
+                )
                 startActivity(webIntent)
             }
         }

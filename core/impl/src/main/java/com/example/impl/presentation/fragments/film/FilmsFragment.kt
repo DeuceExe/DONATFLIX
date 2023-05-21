@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.view.isNotEmpty
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -25,7 +27,9 @@ import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragme
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 import java.util.Timer
@@ -36,10 +40,9 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     private val viewModel by viewModel<FilmViewModel>()
 
     private var _binding: FragmentFilmsBinding? = null
+    val binding get() = requireNotNull(_binding)
 
     private lateinit var timer: Timer
-
-    val binding get() = requireNotNull(_binding)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +55,7 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.searchView.searchFilmRv.bringToFront()
         searchProcessing()
         initUi()
         initObserver()
@@ -67,7 +71,8 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
         }
 
         viewModel.searchFilmList.observe(viewLifecycleOwner) { searchFilmList ->
-            setAdapter(searchFilmList, binding.searchFilmRv)
+            binding.searchView.searchFilmRv.isVisible = true
+            setAdapter(searchFilmList, binding.searchView.searchFilmRv, true)
         }
 
         viewModel.bestFilmList.observe(viewLifecycleOwner) { bestFilmList ->
@@ -75,8 +80,12 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
         }
     }
 
-    private fun setAdapter(filmList: List<CurrentFilm>, recyclerView: RecyclerView) {
-        val filmAdapter = FilmAdapter(filmList) { onFilmClick(it) }
+    private fun setAdapter(
+        filmList: List<CurrentFilm>,
+        recyclerView: RecyclerView,
+        isSearch: Boolean = false
+    ) {
+        val filmAdapter = FilmAdapter(filmList, isSearch) { onFilmClick(it) }
         recyclerView.adapter = filmAdapter
         filmAdapter.notifyDataSetChanged()
     }
@@ -139,28 +148,27 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
         binding.bestFilmRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        binding.searchView.searchFilmRv.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun searchProcessing(){
-        if(binding.searchFilmView.isNotEmpty()) {
-            binding.searchFilmRv.visibility = View.VISIBLE
+    private fun searchProcessing() {
+        if (binding.searchFilmView.isNotEmpty()) {
             binding.searchFilmView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.searchFilmAsync(query)
-                    }
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String): Boolean {
-                    CoroutineScope(Dispatchers.IO).launch {
+                    if (newText.isEmpty()) {
+                        binding.searchView.searchFilmRv.isVisible = false
+                    } else {
                         viewModel.searchFilmAsync(newText)
                     }
                     return true
                 }
             })
-        } else {
-            binding.searchFilmRv.visibility = View.GONE
         }
     }
 
