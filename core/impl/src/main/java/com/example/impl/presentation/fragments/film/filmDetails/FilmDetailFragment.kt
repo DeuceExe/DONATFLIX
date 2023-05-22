@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.uikit.R
 import com.example.impl.databinding.FragmentFilmDetailBinding
 import com.example.impl.model.CurrentFilm
 import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
+import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmElement
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -40,6 +42,8 @@ class FilmDetailFragment : Fragment(), KoinComponent {
 
         loadTrailer()
         initObserver()
+        initUi()
+
         arguments?.let {
             CoroutineScope(Job()).launch {
                 viewModel.getFilmById(it.getInt(BUNDLE, 0))
@@ -55,12 +59,11 @@ class FilmDetailFragment : Fragment(), KoinComponent {
 
     private fun setAdapter(
         filmList: List<CurrentFilm>,
-        recyclerView: RecyclerView,
-        isSearch: Boolean = false
+        recyclerView: RecyclerView
     ) {
-        val filmAdapter = FilmAdapter(filmList, isSearch) {}
-        recyclerView.adapter = filmAdapter
-        filmAdapter.notifyDataSetChanged()
+        val castAdapter = FilmAdapter(filmList, FilmElement.CAST)
+        recyclerView.adapter = castAdapter
+        castAdapter.notifyDataSetChanged()
     }
 
     private fun setUiData() {
@@ -80,7 +83,7 @@ class FilmDetailFragment : Fragment(), KoinComponent {
 
     private fun loadTrailer() {
 
-        binding.detailMovieCover.setOnClickListener {
+        binding.btnPlay.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(viewModel.currentFilm.value?.videos?.trailers?.get(0)?.url)
@@ -104,10 +107,19 @@ class FilmDetailFragment : Fragment(), KoinComponent {
         }
     }
 
-    private fun initObserver() {
+    private fun initUi() {
+        binding.castFilmRv.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+        private fun initObserver() {
         viewModel.currentFilm.observe(viewLifecycleOwner) {
             setUiData()
             loadPoster()
+        }
+
+        viewModel.currentFilm.observe(viewLifecycleOwner) { filmList ->
+            setAdapter(listOf(filmList), binding.castFilmRv)
         }
     }
 

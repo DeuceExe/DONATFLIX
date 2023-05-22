@@ -7,7 +7,7 @@ import com.example.impl.model.CurrentFilm
 
 class SearchViewHolder(
     private val binding: ItemSearchFilmBinding,
-    private val filmClickListener: (Int) -> Unit
+    private val filmClickListener: ((Int) -> Unit?)? = null
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: CurrentFilm) {
@@ -19,7 +19,7 @@ class SearchViewHolder(
         }
 
         itemView.setOnClickListener {
-            filmClickListener.invoke(item.id)
+            filmClickListener?.invoke(item.id)
         }
     }
 }

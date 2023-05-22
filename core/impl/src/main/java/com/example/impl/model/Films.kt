@@ -13,15 +13,11 @@ data class CurrentFilm(
     val poster: Poster,
     val backdrop: Backdrop,
     val videos: Videos,
-    val cast: Persons,
+    val persons: List<Persons>,
     val id: Int
 )
 
 data class CategoryNames(
-    val name: String
-)
-
-data class UrlNames(
     val name: String
 )
 
@@ -42,11 +38,6 @@ data class Trailers(
 )
 
 data class Persons(
-    val id : Int,
     val photo : String,
-    val name : String,
-    val enName : String,
-    val description : String,
-    val profession : String,
-    val enProfession : String
+    val name : String
 )

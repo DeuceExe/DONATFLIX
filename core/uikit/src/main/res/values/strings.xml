@@ -7,4 +7,5 @@
     <string name="year">Год: %s</string>
     <string name="country">Страны: %s</string>
     <string name="donatflix">DONATFLIX</string>
+    <string name="cast">Каст:</string>
 </resources>

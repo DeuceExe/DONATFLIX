@@ -1,5 +1,6 @@
 package com.example.impl.presentation.fragments.film
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,23 +14,18 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.api.IFilmFragment
-import com.example.impl.R
+import com.example.api.IFilmFragmentReplace
 import com.example.impl.databinding.FragmentFilmsBinding
 import com.example.impl.model.CurrentFilm
 import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
+import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmElement
 import com.example.impl.presentation.fragments.film.adapter.slide.SliderPagerAdapter
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 import java.util.Timer
@@ -41,6 +37,8 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
     private var _binding: FragmentFilmsBinding? = null
     val binding get() = requireNotNull(_binding)
+
+    private var fragmentChangeListener: IFilmFragmentReplace? = null
 
     private lateinit var timer: Timer
 
@@ -63,16 +61,16 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
     private fun initObserver() {
         viewModel.actionFilmList.observe(viewLifecycleOwner) { actionFilmList ->
-            setAdapter(actionFilmList, binding.bestFilmRv)
+            setAdapter(actionFilmList, binding.bestFilmRv, FilmElement.FILM)
         }
 
         viewModel.horrorFilmList.observe(viewLifecycleOwner) { horrorFilmList ->
-            setAdapter(horrorFilmList, binding.horrorFilmRv)
+            setAdapter(horrorFilmList, binding.horrorFilmRv, FilmElement.FILM)
         }
 
         viewModel.searchFilmList.observe(viewLifecycleOwner) { searchFilmList ->
             binding.searchView.searchFilmRv.isVisible = true
-            setAdapter(searchFilmList, binding.searchView.searchFilmRv, true)
+            setAdapter(searchFilmList, binding.searchView.searchFilmRv, FilmElement.SEARCH)
         }
 
         viewModel.bestFilmList.observe(viewLifecycleOwner) { bestFilmList ->
@@ -83,9 +81,12 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     private fun setAdapter(
         filmList: List<CurrentFilm>,
         recyclerView: RecyclerView,
-        isSearch: Boolean = false
+        filmElement: FilmElement
     ) {
-        val filmAdapter = FilmAdapter(filmList, isSearch) { onFilmClick(it) }
+        val filmAdapter = FilmAdapter(filmList, filmElement) {
+            onFilmClick(it)
+            binding.searchFilmView.setQuery("", false)
+        }
         recyclerView.adapter = filmAdapter
         filmAdapter.notifyDataSetChanged()
     }
@@ -118,11 +119,7 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
             putInt(FilmDetailFragment.BUNDLE, id)
         }
 
-        activity?.supportFragmentManager
-            ?.beginTransaction()
-            ?.replace(R.id.fragment_container, fragment)
-            ?.addToBackStack(null)
-            ?.commit()
+        fragmentChangeListener?.replaceFragment(fragment)
     }
 
     private fun onTrailerClick(trailerLink: String) {
@@ -169,6 +166,16 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
                     return true
                 }
             })
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is IFilmFragmentReplace) {
+            fragmentChangeListener = context
+        } else {
+            throw RuntimeException("$context")
         }
     }
 
