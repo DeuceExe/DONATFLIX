@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.uikit.R
 import com.example.impl.databinding.FragmentFilmDetailBinding
-import com.example.impl.model.CurrentFilm
-import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
-import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmElement
+import com.example.impl.model.Persons
+import com.example.impl.presentation.fragments.film.adapter.castAdapter.CastAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -40,6 +39,7 @@ class FilmDetailFragment : Fragment(), KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        addFilmAtFavorite()
         loadTrailer()
         initObserver()
         initUi()
@@ -58,10 +58,10 @@ class FilmDetailFragment : Fragment(), KoinComponent {
     }
 
     private fun setAdapter(
-        filmList: List<CurrentFilm>,
+        castList: List<Persons>,
         recyclerView: RecyclerView
     ) {
-        val castAdapter = FilmAdapter(filmList, FilmElement.CAST)
+        val castAdapter = CastAdapter(castList)
         recyclerView.adapter = castAdapter
         castAdapter.notifyDataSetChanged()
     }
@@ -82,7 +82,6 @@ class FilmDetailFragment : Fragment(), KoinComponent {
     }
 
     private fun loadTrailer() {
-
         binding.btnPlay.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -112,14 +111,27 @@ class FilmDetailFragment : Fragment(), KoinComponent {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-        private fun initObserver() {
+    private fun initObserver() {
         viewModel.currentFilm.observe(viewLifecycleOwner) {
             setUiData()
             loadPoster()
         }
 
-        viewModel.currentFilm.observe(viewLifecycleOwner) { filmList ->
-            setAdapter(listOf(filmList), binding.castFilmRv)
+        viewModel.castList.observe(viewLifecycleOwner) { castList ->
+            setAdapter(castList, binding.castFilmRv)
+        }
+    }
+
+    private fun addFilmAtFavorite() {
+        var isFavorite = false
+        binding.btnFavorite.setOnClickListener {
+            isFavorite = if (isFavorite) {
+                binding.btnFavorite.setImageResource(com.example.impl.R.drawable.favorite_unselected)
+                false
+            } else {
+                binding.btnFavorite.setImageResource(com.example.impl.R.drawable.favorite_selected)
+                true
+            }
         }
     }
 

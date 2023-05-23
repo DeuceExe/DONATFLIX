@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -66,8 +68,12 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10"
 
-    //gson
+    //Gson
     implementation 'com.google.code.gson:gson:2.10.1'
+
+    //Firebase
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.7'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.2.2'
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'

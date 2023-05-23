@@ -23,7 +23,7 @@ import com.example.impl.databinding.FragmentFilmsBinding
 import com.example.impl.model.CurrentFilm
 import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
 import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmElement
-import com.example.impl.presentation.fragments.film.adapter.slide.SliderPagerAdapter
+import com.example.impl.presentation.fragments.film.adapter.slideAdapter.SliderPagerAdapter
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel

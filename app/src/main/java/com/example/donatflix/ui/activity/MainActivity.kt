@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), IFilmFragmentReplace, KoinComponent {
         val launcher: IFilmFragmentLauncher by inject()
 
         setFragment(launcher.launch() as Fragment)
+        throw RuntimeException("Test Crash")
     }
 
     private fun setFragment(fragment: Fragment) {

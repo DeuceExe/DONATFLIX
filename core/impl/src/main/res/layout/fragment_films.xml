@@ -1,100 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_menu">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvCategoryHorror"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/horrors"
-        android:textColor="@color/text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/best_film_rv" />
-
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_film_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="end"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/slider_pager"
-        app:layout_constraintEnd_toStartOf="@id/appName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/appName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/bebas_neue"
-        android:text="@string/donatflix"
-        android:textColor="@color/app_name"
-        android:textSize="45sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <include
-        android:id="@+id/search_view"
-        layout="@layout/search_recycler_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/search_film_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_film_view" />
+        android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/best_film_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCategoryBest" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvCategoryHorror"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/horrors"
+            android:textColor="@color/text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/best_film_rv" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/horror_film_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCategoryHorror" />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_film_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/slider_pager"
+            app:layout_constraintEnd_toStartOf="@id/appName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvCategoryBest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/best_popular_films"
-        android:textColor="@color/text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/indicator" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/bebas_neue"
+            android:text="@string/donatflix"
+            android:textColor="@color/app_name"
+            android:textSize="45sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/slider_pager"
-        android:layout_width="match_parent"
-        android:layout_height="225dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appName" />
+        <include
+            android:id="@+id/search_view"
+            layout="@layout/search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/search_film_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_film_view" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider_pager"
-        app:tabBackground="@drawable/indicator_selector"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="0dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/best_film_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCategoryBest" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/horror_film_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCategoryHorror" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvCategoryBest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/best_popular_films"
+            android:textColor="@color/text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicator" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/slider_pager"
+            android:layout_width="match_parent"
+            android:layout_height="225dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appName" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/slider_pager"
+            app:tabBackground="@drawable/indicator_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

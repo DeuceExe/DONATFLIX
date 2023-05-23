@@ -24,6 +24,9 @@ class FilmDetailViewModel(private val serviceApi: IFilmsApi) : ViewModel(), Koin
     private val _countries = MutableLiveData("")
     val countries: LiveData<String> get() = _countries
 
+    private val _castList = MutableLiveData<List<Persons>>()
+    val castList: LiveData<List<Persons>> get() = _castList
+
     suspend fun getFilmById(id: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -34,6 +37,7 @@ class FilmDetailViewModel(private val serviceApi: IFilmsApi) : ViewModel(), Koin
                             _genres.postValue(initCategoryNames(this.genres))
                             _countries.postValue(initCategoryNames(this.countries))
                             _currentFilm.postValue(this)
+                            _castList.postValue(this.persons)
                         }
                     }
                 }

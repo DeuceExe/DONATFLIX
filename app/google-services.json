@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1007465126410",
+    "project_id": "donatflix",
+    "storage_bucket": "donatflix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007465126410:android:ba09d493db3b453131ddf3",
+        "android_client_info": {
+          "package_name": "com.example.donatflix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1007465126410-k655l1rqoar08t610vcg4drbqmd3gjs3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhvwg6J6Ku1QKAoMcV0IYmo19hg_xzljc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1007465126410-k655l1rqoar08t610vcg4drbqmd3gjs3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

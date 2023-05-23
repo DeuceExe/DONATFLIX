@@ -9,13 +9,24 @@
     <ImageView
         android:id="@+id/detail_movie_cover"
         android:layout_width="0dp"
-        android:layout_height="245dp"
+        android:layout_height="0dp"
         android:foreground="@drawable/gradient_background"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/tvDetailTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <ImageView
+        android:id="@+id/btn_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/favorite_unselected"
+        app:layout_constraintEnd_toEndOf="@id/detail_movie_cover"
+        app:layout_constraintTop_toTopOf="@id/detail_movie_cover" />
 
     <ImageButton
         android:id="@+id/btn_play"
@@ -32,12 +43,14 @@
         android:id="@+id/card_view_image"
         android:layout_width="110dp"
         android:layout_height="150dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/transparent"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@+id/card_view_description"
+        app:layout_constraintEnd_toStartOf="@+id/tvDetailTitle"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_play"
         app:strokeColor="@color/text"
         app:strokeWidth="1dp">
 
@@ -66,8 +79,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
+        android:layout_marginTop="5dp"
         android:textColor="@color/text"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +92,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:padding="5dp"
         android:textColor="@color/text"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +104,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:padding="5dp"
         android:textColor="@color/text"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +117,8 @@
         android:id="@+id/card_view_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/transparent"
         app:cardCornerRadius="8dp"
@@ -143,6 +154,7 @@
         android:padding="8dp"
         android:text="@string/cast"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_view_description" />
@@ -152,9 +164,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_cast"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_cast" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

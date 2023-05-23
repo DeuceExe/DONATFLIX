@@ -7,12 +7,12 @@ import com.example.impl.databinding.ItemCastBinding
 import com.example.impl.databinding.ItemFilmBinding
 import com.example.impl.databinding.ItemSearchFilmBinding
 import com.example.impl.model.CurrentFilm
-import com.example.impl.model.Persons
+import com.example.impl.presentation.fragments.film.adapter.castAdapter.CastViewHolder
 
 class FilmAdapter(
     private val filmList: List<CurrentFilm>,
     private val filmElement: FilmElement,
-    private val filmClickListener: ((Int) -> Unit?)? = null
+    private val filmClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -31,10 +31,6 @@ class FilmAdapter(
                     filmClickListener
                 )
             }
-
-            FilmElement.CAST -> {
-                CastViewHolder(ItemCastBinding.inflate(inflater, viewGroup, false))
-            }
         }
     }
 
@@ -46,20 +42,11 @@ class FilmAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        val sizeLimit = 20
-
-        return if (filmList.size > sizeLimit) {
-            sizeLimit
-        } else {
-            filmList.size
-        }
-    }
+    override fun getItemCount() = filmList.size
 }
 
 enum class FilmElement {
 
     FILM,
-    SEARCH,
-    CAST
+    SEARCH
 }
