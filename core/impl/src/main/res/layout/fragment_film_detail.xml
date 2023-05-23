@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/detail_movie_cover"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="230dp"
         android:foreground="@drawable/gradient_background"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@id/tvDetailTitle"

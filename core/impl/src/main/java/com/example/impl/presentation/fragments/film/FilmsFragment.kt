@@ -42,6 +42,8 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
     private lateinit var timer: Timer
 
+    private val searchHandler = Handler(Looper.getMainLooper())
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -161,11 +163,13 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
                 }
 
                 override fun onQueryTextChange(newText: String): Boolean {
+                    searchHandler.removeCallbacksAndMessages(null)
+
                     if (newText.isEmpty()) {
                         binding.searchView.cardViewSearch.isVisible = false
                     } else {
                         binding.searchView.cardViewSearch.isVisible = true
-                        viewModel.searchFilmAsync(newText)
+                        searchHandler.postDelayed({ viewModel.searchFilmAsync(newText) }, 1500)
                     }
                     return true
                 }
