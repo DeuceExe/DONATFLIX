@@ -2,6 +2,6 @@ package com.example.api
 
 import androidx.fragment.app.Fragment
 
-interface IFilmFragmentReplace {
+interface IFragmentReplace {
     fun replaceFragment(fragment: Fragment)
 }

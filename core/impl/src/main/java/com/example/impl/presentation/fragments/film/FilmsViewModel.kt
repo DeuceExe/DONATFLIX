@@ -9,7 +9,6 @@ import com.example.impl.presentation.fragments.film.FilmsFragment.Companion.ACTI
 import com.example.impl.presentation.fragments.film.FilmsFragment.Companion.HORROR
 import com.example.impl.model.CurrentFilm
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent

@@ -4,6 +4,7 @@ import com.example.impl.presentation.fragments.film.FilmViewModel
 import com.example.impl.presentation.fragments.film.FilmsFragment
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailViewModel
+import com.example.impl.presentation.registration.RegistrationFragment
 import com.example.impl.rest.IFilmsApi
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,4 +20,5 @@ internal val viewModelModule = module {
 internal val filmAppModule = module {
     fragment { FilmsFragment() }
     fragment { FilmDetailFragment() }
+    fragment { RegistrationFragment() }
 }

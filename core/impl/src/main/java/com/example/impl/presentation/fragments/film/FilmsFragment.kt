@@ -17,8 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.example.api.IFilmFragment
-import com.example.api.IFilmFragmentReplace
+import com.example.api.IFragmentReplace
 import com.example.impl.databinding.FragmentFilmsBinding
 import com.example.impl.model.CurrentFilm
 import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
@@ -31,14 +30,14 @@ import org.koin.core.component.KoinComponent
 import java.util.Timer
 import java.util.TimerTask
 
-class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
+class FilmsFragment : Fragment(), KoinComponent {
 
     private val viewModel by viewModel<FilmViewModel>()
 
     private var _binding: FragmentFilmsBinding? = null
     val binding get() = requireNotNull(_binding)
 
-    private var fragmentChangeListener: IFilmFragmentReplace? = null
+    private var fragmentChangeListener: IFragmentReplace? = null
 
     private lateinit var timer: Timer
 
@@ -180,7 +179,7 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        if (context is IFilmFragmentReplace) {
+        if (context is IFragmentReplace) {
             fragmentChangeListener = context
         } else {
             throw RuntimeException("$context")

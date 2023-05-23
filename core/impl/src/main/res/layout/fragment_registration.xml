@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/registration_fragment"
     android:background="@color/background_menu">
 
     <androidx.constraintlayout.widget.Guideline
@@ -53,9 +54,9 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/et_pass"
-        app:layout_constraintEnd_toEndOf="@id/et_pass"
-        app:layout_constraintStart_toStartOf="@id/et_pass" />
+        app:layout_constraintBottom_toTopOf="@id/et_password"
+        app:layout_constraintEnd_toEndOf="@id/et_password"
+        app:layout_constraintStart_toStartOf="@id/et_password" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_set_avatar"
@@ -71,7 +72,7 @@
         app:layout_constraintStart_toStartOf="@id/et_login" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/et_pass"
+        android:id="@+id/et_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="110dp"
@@ -95,9 +96,9 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="@id/et_pass"
-        app:layout_constraintStart_toStartOf="@id/et_pass"
-        app:layout_constraintTop_toBottomOf="@id/et_pass" />
+        app:layout_constraintEnd_toEndOf="@id/et_password"
+        app:layout_constraintStart_toStartOf="@id/et_password"
+        app:layout_constraintTop_toBottomOf="@id/et_password" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_log_in"

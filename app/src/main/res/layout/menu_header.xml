@@ -15,7 +15,7 @@
         android:background="@drawable/round_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@drawable/avatar" />
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
