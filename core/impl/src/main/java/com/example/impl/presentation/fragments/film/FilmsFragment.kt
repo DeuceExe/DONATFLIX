@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.api.IFilmFragment
 import com.example.api.IFragmentReplace
 import com.example.impl.databinding.FragmentFilmsBinding
 import com.example.impl.model.CurrentFilm
@@ -30,7 +31,7 @@ import org.koin.core.component.KoinComponent
 import java.util.Timer
 import java.util.TimerTask
 
-class FilmsFragment : Fragment(), KoinComponent {
+class FilmsFragment : Fragment(), KoinComponent, IFilmFragment {
 
     private val viewModel by viewModel<FilmViewModel>()
 

@@ -8,6 +8,7 @@ import com.example.donatflix.databinding.ActivityMainBinding
 import com.example.api.IFilmFragmentLauncher
 import com.example.api.IFragmentReplace
 import com.example.donatflix.R
+import com.example.impl.presentation.fragments.film.FilmsFragment
 import com.example.impl.presentation.registration.RegistrationFragment
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity(), IFragmentReplace, KoinComponent {
 
         val launcher: IFilmFragmentLauncher by inject()
 
-        setFragment(RegistrationFragment())
+        setFragment(launcher.launch() as Fragment)
 
         controlNavigationMenu()
     }

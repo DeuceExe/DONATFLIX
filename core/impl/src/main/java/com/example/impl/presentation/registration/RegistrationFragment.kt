@@ -26,10 +26,10 @@ import com.example.impl.room.entity.User
 import org.koin.core.component.KoinComponent
 import java.util.regex.Pattern
 
-fun String.validatePassword(): Boolean = Pattern.compile(PASSWORD_PATTERN).matcher(this).matches()
-const val PASSWORD_PATTERN = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-]).{8,}\$"
-
 class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
+
+    private fun String.validatePassword(): Boolean =
+        Pattern.compile(PASSWORD_PATTERN).matcher(this).matches()
 
     private var _binding: FragmentRegistrationBinding? = null
     val binding get() = requireNotNull(_binding)
@@ -55,7 +55,7 @@ class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
         db = UserDataBase.getInstance(requireContext())
 
         //logIn()
-       // signUp()
+        // signUp()
     }
 
     private fun logIn() {
@@ -138,10 +138,12 @@ class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
 
     companion object {
 
-        fun buildReg() = RegistrationFragment().apply {
+        fun build() = RegistrationFragment().apply {
             arguments = bundleOf()
         }
 
+        const val PASSWORD_PATTERN =
+            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-]).{8,}\$"
         const val DB_NAME = "user"
     }
 }
