@@ -8,4 +8,7 @@
     <string name="country">Страны: %s</string>
     <string name="donatflix">DONATFLIX</string>
     <string name="cast">Каст:</string>
+    <string name="exit">Выйти</string>
+    <string name="settings">Настройки</string>
+    <string name="about">О приложении</string>
 </resources>

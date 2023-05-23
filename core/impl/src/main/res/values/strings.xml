@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="sign_in">Войти</string>
+    <string name="login">Логин</string>
+    <string name="avatar">Выбрать</string>
+    <string name="password">Пароль</string>
+    <string name="accept_password">Подтвердите пароль</string>
+</resources>

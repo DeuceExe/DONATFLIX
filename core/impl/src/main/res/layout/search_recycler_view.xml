@@ -6,7 +6,8 @@
     android:backgroundTint="@color/transparent"
     app:cardCornerRadius="8dp"
     app:strokeColor="@color/text"
-    app:strokeWidth="1dp">
+    app:strokeWidth="1dp"
+    android:id="@+id/card_view_search">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_film_rv"

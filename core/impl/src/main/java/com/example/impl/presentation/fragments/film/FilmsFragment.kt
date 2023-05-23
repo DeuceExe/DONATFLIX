@@ -113,6 +113,9 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
     }
 
     private fun onFilmClick(id: Int) {
+        binding.searchFilmView.isIconified = true
+        binding.searchFilmView.clearFocus()
+
         val fragment = FilmDetailFragment()
 
         fragment.arguments = Bundle().apply {
@@ -159,8 +162,9 @@ class FilmsFragment : Fragment(), IFilmFragment, KoinComponent {
 
                 override fun onQueryTextChange(newText: String): Boolean {
                     if (newText.isEmpty()) {
-                        binding.searchView.searchFilmRv.isVisible = false
+                        binding.searchView.cardViewSearch.isVisible = false
                     } else {
+                        binding.searchView.cardViewSearch.isVisible = true
                         viewModel.searchFilmAsync(newText)
                     }
                     return true

@@ -1,6 +1,7 @@
 package com.example.donatflix.ui.activity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.donatflix.databinding.ActivityMainBinding
@@ -24,7 +25,29 @@ class MainActivity : AppCompatActivity(), IFilmFragmentReplace, KoinComponent {
         val launcher: IFilmFragmentLauncher by inject()
 
         setFragment(launcher.launch() as Fragment)
-        throw RuntimeException("Test Crash")
+
+        controlNavigationMenu()
+    }
+
+    private fun controlNavigationMenu(){
+        binding.nvMenu.setNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.settings -> Toast.makeText(
+                    this@MainActivity,
+                    R.string.nv_settings,
+                    Toast.LENGTH_LONG
+                ).show()
+
+                R.id.about -> Toast.makeText(
+                    this@MainActivity,
+                    R.string.nv_about,
+                    Toast.LENGTH_LONG
+                ).show()
+
+                R.id.exit -> {}
+            }
+            true
+        }
     }
 
     private fun setFragment(fragment: Fragment) {
