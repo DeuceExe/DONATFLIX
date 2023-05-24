@@ -10,7 +10,7 @@ interface IFilmsApi {
     @GET("v1.3/movie")
     suspend fun getFilmByGenre(@Query("genres.name") genre: String): Response<Films>
 
-    @GET("v1.3/movie?selectFields=id&selectFields=name&selectFields=description&selectFields=poster.url&selectFields=backdrop.url&selectFields=videos.trailers.url&selectFields=videos.trailers.site&selectFields=year&selectFields=countries.name&selectFields=genres.name&selectFields=backdrop.url&selectFields=persons.photo&selectFields=persons.name&page=1&videos.trailers.site=youtube")
+    @GET("v1.3/movie")
     suspend fun getFilmById(
         @Query("id") id: Int,
         @Query("selectFields") filmId: String? = "id",

@@ -31,7 +31,7 @@ import org.koin.core.component.KoinComponent
 import java.util.Timer
 import java.util.TimerTask
 
-class FilmsFragment : Fragment(), KoinComponent, IFilmFragment {
+class FilmsFragment : Fragment(), KoinComponent {
 
     private val viewModel by viewModel<FilmViewModel>()
 
@@ -194,10 +194,6 @@ class FilmsFragment : Fragment(), KoinComponent, IFilmFragment {
     }
 
     companion object {
-
-        fun build() = FilmsFragment().apply {
-            arguments = bundleOf()
-        }
 
         const val ACTION = "боевик"
         const val HORROR = "ужасы"

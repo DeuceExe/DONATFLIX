@@ -3,6 +3,7 @@ package com.example.impl.presentation.registration
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -18,35 +19,39 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.api.IFilmFragment
 import com.example.api.IFragmentReplace
+import com.example.api.IUserInfo
 import com.example.impl.databinding.FragmentRegistrationBinding
 import com.example.impl.presentation.fragments.film.FilmsFragment
 import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
 import com.example.impl.room.UserDataBase
 import com.example.impl.room.entity.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import java.util.regex.Pattern
 
 class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
 
-    private fun String.validatePassword(): Boolean =
-        Pattern.compile(PASSWORD_PATTERN).matcher(this).matches()
-
     private var _binding: FragmentRegistrationBinding? = null
     val binding get() = requireNotNull(_binding)
 
     private var fragmentChangeListener: IFragmentReplace? = null
+    private lateinit var listener: IUserInfo
 
     private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var db: UserDataBase
 
+    private var imagePath = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentRegistrationBinding.inflate(inflater, container, false)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,29 +59,34 @@ class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
 
         db = UserDataBase.getInstance(requireContext())
 
-        //logIn()
-        // signUp()
+        logIn()
+        signUp()
     }
 
     private fun logIn() {
         with(binding) {
-            etPassword.doAfterTextChanged { text ->
-                if (text.toString().validatePassword() && !etLogin.text.isNullOrBlank()) {
-                    btnLogIn.isEnabled = true
+            btnLogIn.isEnabled = true
 
-                    btnLogIn.setOnClickListener {
-                        val user =
-                            db.userDao()
-                                .checkLogIn(etLogin.text.toString(), etPassword.text.toString())
-                        if (user != null) {
-                            goToFilm()
-                        } else {
-                            Toast.makeText(activity, "Неверный логин или пароль", Toast.LENGTH_LONG)
-                                .show()
+            btnLogIn.setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val user =
+                        db.userDao()
+                            .checkLogIn(etLogin.text.toString(), etPassword.text.toString())
+                    if (user != null) {
+                        goToFilm()
+                        user.userImage?.let { image ->
+                            sendUserToActivity(user.userLogin,
+                                image,
+                                listOf())
                         }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Неверный логин или пароль",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
                     }
-                } else {
-                    etPassword.error = "Неверный пароль"
                 }
             }
         }
@@ -84,16 +94,48 @@ class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
 
     private fun signUp() {
         setUserImage()
+        insertUser()
 
-        binding.groupRegistration.isVisible = true
-        binding.btnLogIn.isVisible = false
-
-        with(binding) {
-            db.userDao().insertUser(User(null, etLogin.text.toString(), etPassword.text.toString()))
+        binding.btnSignUp.setOnClickListener {
+            binding.groupRegistration.isVisible = true
+            binding.btnLogIn.isVisible = false
+            binding.btnSignUp.isEnabled = false
+            binding.btnCreateUser.isEnabled = true
         }
+    }
 
-        binding.groupRegistration.isVisible = false
-        binding.btnLogIn.isVisible = true
+    private fun insertUser() {
+        binding.btnCreateUser.setOnClickListener {
+            with(binding) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val user =
+                        db.userDao()
+                            .checkUserByLogin(etLogin.text.toString())
+                    if (user == null) {
+                        db.userDao()
+                            .insertUser(
+                                User(
+                                    null,
+                                    etLogin.text.toString(),
+                                    etPassword.text.toString(),
+                                    imagePath
+                                )
+                            )
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Такой логин уже занят",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                    }
+                }
+                groupRegistration.isVisible = false
+                btnLogIn.isVisible = true
+                btnSignUp.isEnabled = true
+                btnCreateUser.isEnabled = false
+            }
+        }
     }
 
     private fun setUserImage() {
@@ -112,6 +154,7 @@ class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
                     Glide.with(this)
                         .load(imageUri)
                         .into(binding.imageUserAvatar)
+                    imagePath = imageUri.toString()
                 }
             }
     }
@@ -119,17 +162,20 @@ class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
     private fun goToFilm() {
         val fragment = FilmsFragment()
 
-        fragment.arguments = Bundle().apply {
-            putInt(FilmDetailFragment.BUNDLE, id)
-        }
+        fragment.arguments = Bundle()
 
         fragmentChangeListener?.replaceFragment(fragment)
+    }
+
+    private fun sendUserToActivity(login: String, image: String, favoriteFilms: List<Int>) {
+        listener.onUserDataReceived(login, image, favoriteFilms)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         if (context is IFragmentReplace) {
+            listener = context as IUserInfo
             fragmentChangeListener = context
         } else {
             throw RuntimeException("$context")
@@ -142,8 +188,6 @@ class RegistrationFragment : Fragment(), IFilmFragment, KoinComponent {
             arguments = bundleOf()
         }
 
-        const val PASSWORD_PATTERN =
-            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-]).{8,}\$"
         const val DB_NAME = "user"
     }
 }

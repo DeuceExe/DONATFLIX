@@ -126,6 +126,7 @@ class FilmDetailFragment : Fragment(), KoinComponent {
         var isFavorite = false
         binding.btnFavorite.setOnClickListener {
             isFavorite = if (isFavorite) {
+
                 binding.btnFavorite.setImageResource(com.example.impl.R.drawable.favorite_unselected)
                 false
             } else {

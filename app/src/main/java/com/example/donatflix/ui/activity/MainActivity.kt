@@ -4,16 +4,21 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.donatflix.databinding.ActivityMainBinding
 import com.example.api.IFilmFragmentLauncher
 import com.example.api.IFragmentReplace
+import com.example.api.IUserInfo
 import com.example.donatflix.R
-import com.example.impl.presentation.fragments.film.FilmsFragment
-import com.example.impl.presentation.registration.RegistrationFragment
+import com.example.donatflix.databinding.MenuHeaderBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class MainActivity : AppCompatActivity(), IFragmentReplace, KoinComponent {
+class MainActivity : AppCompatActivity(), IFragmentReplace, IUserInfo, KoinComponent {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -31,9 +36,9 @@ class MainActivity : AppCompatActivity(), IFragmentReplace, KoinComponent {
         controlNavigationMenu()
     }
 
-    private fun controlNavigationMenu(){
+    private fun controlNavigationMenu() {
         binding.nvMenu.setNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.settings -> Toast.makeText(
                     this@MainActivity,
                     R.string.nv_settings,
@@ -65,5 +70,17 @@ class MainActivity : AppCompatActivity(), IFragmentReplace, KoinComponent {
             .replace(R.id.container, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onUserDataReceived(login: String, image: String, favoriteFilms: List<Int>) {
+        val header = binding.nvMenu.getHeaderView(0)
+        val headerBinding = MenuHeaderBinding.bind(header)
+
+        headerBinding.tvLogin.text = login
+        CoroutineScope(Dispatchers.Main).launch {
+            Glide.with(this@MainActivity)
+                .load(image)
+                .into(headerBinding.imageUserIcon)
+        }
     }
 }

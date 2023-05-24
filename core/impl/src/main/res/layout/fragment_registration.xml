@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="image_user_avatar, et_confirm_password, btn_set_avatar" />
+        app:constraint_referenced_ids="btn_create_user, image_user_avatar, et_confirm_password, btn_set_avatar" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/appName"
@@ -106,7 +106,6 @@
         android:layout_marginTop="6dp"
         android:backgroundTint="@color/purple_500"
         android:padding="16dp"
-        android:enabled="false"
         android:text="@string/sign_in"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
@@ -120,6 +119,20 @@
         android:layout_marginTop="6dp"
         android:backgroundTint="@color/purple_500"
         android:padding="16dp"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_create_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:backgroundTint="@color/purple_500"
+        android:padding="16dp"
+        android:enabled="false"
         android:text="@string/sign_up"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"

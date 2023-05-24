@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.example.impl.presentation.registration.RegistrationFragment.Companion.DB_NAME
 import com.example.impl.room.dao.UserDao
 import com.example.impl.room.entity.User
@@ -14,7 +13,6 @@ import com.example.impl.room.entity.User
     version = 1,
     exportSchema = true
 )
-@TypeConverters(Converter::class)
 abstract class UserDataBase : RoomDatabase() {
     abstract fun userDao(): UserDao
 

@@ -8,4 +8,5 @@
     <string name="donatflix" translatable="false">DONATFLIX</string>
     <string name="nv_settings" translatable="false">В разработке</string>
     <string name="nv_about" translatable="false">Кинобиблиотека (необходимо постоянное подключение к интернету)</string>
+    <string name="favorite">Избранное</string>
 </resources>
