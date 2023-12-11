@@ -1,4 +1,4 @@
-package com.example.impl.presentation.fragments.film.filmDetails
+package com.example.impl.presentation.fragments.filmDetails
 
 import android.content.Intent
 import android.net.Uri
@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.uikit.R
 import com.example.impl.databinding.FragmentFilmDetailBinding
 import com.example.impl.model.Persons
-import com.example.impl.presentation.fragments.film.adapter.castAdapter.CastAdapter
+import com.example.impl.presentation.fragments.adapter.castAdapter.CastAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

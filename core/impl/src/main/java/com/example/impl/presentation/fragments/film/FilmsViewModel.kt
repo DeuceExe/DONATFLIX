@@ -22,11 +22,9 @@ class FilmViewModel(private val serviceApi: IFilmsApi) : ViewModel(), KoinCompon
     val horrorFilmList: LiveData<List<CurrentFilm>> get() = _horrorFilmList
 
     private val _bestFilmList = MutableLiveData<List<CurrentFilm>>(listOf())
-
     val bestFilmList: LiveData<List<CurrentFilm>> get() = _bestFilmList
 
     private val _searchFilmList = MutableLiveData<List<CurrentFilm>>()
-
     val searchFilmList: LiveData<List<CurrentFilm>> get() = _searchFilmList
 
     init {

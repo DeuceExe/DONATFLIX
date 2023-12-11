@@ -1,4 +1,4 @@
-package com.example.impl.presentation.fragments.film.adapter.filmAdapter
+package com.example.impl.presentation.fragments.adapter.filmAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.example.impl.databinding.ItemCastBinding
 import com.example.impl.databinding.ItemFilmBinding
 import com.example.impl.databinding.ItemSearchFilmBinding
 import com.example.impl.model.CurrentFilm
-import com.example.impl.presentation.fragments.film.adapter.castAdapter.CastViewHolder
+import com.example.impl.presentation.fragments.adapter.castAdapter.CastViewHolder
 
 class FilmAdapter(
     private val filmList: List<CurrentFilm>,

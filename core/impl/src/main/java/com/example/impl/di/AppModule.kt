@@ -2,9 +2,9 @@ package com.example.impl.di
 
 import com.example.impl.presentation.fragments.film.FilmViewModel
 import com.example.impl.presentation.fragments.film.FilmsFragment
-import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
-import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailViewModel
-import com.example.impl.presentation.registration.RegistrationFragment
+import com.example.impl.presentation.fragments.filmDetails.FilmDetailFragment
+import com.example.impl.presentation.fragments.filmDetails.FilmDetailViewModel
+import com.example.impl.presentation.fragments.registration.RegistrationFragment
 import com.example.impl.rest.IFilmsApi
 import org.koin.androidx.fragment.dsl.fragment
 import org.koin.androidx.viewmodel.dsl.viewModel

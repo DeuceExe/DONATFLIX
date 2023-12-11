@@ -2,11 +2,11 @@
     <string name="app_name" translatable="false">AcademyHomework</string>
     <string name="best_popular_films" translatable="false">ЛУЧШИЕ ФИЛЬМЫ</string>
     <string name="horrors" translatable="false">УЖАСЫ</string>
-    <string name="genre" translatable="false">Жанры: %s</string>
+    <string name="genre" translatable="false">Жанры:%s1 %s2</string>
     <string name="year" translatable="false">Год: %s</string>
     <string name="country" translatable="false">Страны: %s</string>
     <string name="donatflix" translatable="false">DONATFLIX</string>
     <string name="nv_settings" translatable="false">В разработке</string>
-    <string name="nv_about" translatable="false">Кинобиблиотека (необходимо постоянное подключение к интернету)</string>
+    <string name="nv_about" translatable="false">Кинобиблиотека (необходимо постоянное интернет соединение)</string>
     <string name="favorite">Избранное</string>
 </resources>

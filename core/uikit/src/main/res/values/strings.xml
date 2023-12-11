@@ -11,4 +11,8 @@
     <string name="exit">Выйти</string>
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>
+    <string name="incorrect_login">Такой логин уже занят</string>
+    <string name="incorrect_login_pass">Неверный логин или пароль</string>
+    <string name="intent_youtube_name">com.google.android.youtube</string>
+    <string name="youtube_class_name">com.google.android.youtube.WatchActivity</string>
 </resources>

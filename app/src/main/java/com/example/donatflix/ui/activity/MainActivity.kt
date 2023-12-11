@@ -5,9 +5,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.donatflix.databinding.ActivityMainBinding
-import com.example.api.IFilmFragmentLauncher
+import com.example.api.IRegistrationLauncher
 import com.example.api.IFragmentReplace
 import com.example.api.IUserInfo
 import com.example.donatflix.R
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity(), IFragmentReplace, IUserInfo, KoinCompo
 
         setTheme(R.style.Theme_Donatflix)
 
-        val launcher: IFilmFragmentLauncher by inject()
+        val launcher: IRegistrationLauncher by inject()
 
         setFragment(launcher.launch() as Fragment)
 

@@ -1,4 +1,4 @@
-package com.example.impl.presentation.fragments.film.adapter.slideAdapter
+package com.example.impl.presentation.fragments.adapter.slideAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

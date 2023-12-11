@@ -1,4 +1,4 @@
-package com.example.impl.presentation.fragments.film.adapter.castAdapter
+package com.example.impl.presentation.fragments.adapter.castAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import com.example.impl.databinding.ItemCastBinding
 import com.example.impl.model.Persons
 
 class CastAdapter(
-    private val castList: List<Persons>,
+    private val castList: List<Persons>
 ) : RecyclerView.Adapter<CastViewHolder>() {
 
     private lateinit var binding: ItemCastBinding

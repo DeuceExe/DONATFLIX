@@ -1,5 +1,6 @@
 package com.example.impl.presentation.fragments.film
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,21 +11,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.example.api.IFilmFragment
 import com.example.api.IFragmentReplace
+import com.example.uikit.R
 import com.example.impl.databinding.FragmentFilmsBinding
 import com.example.impl.model.CurrentFilm
-import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmAdapter
-import com.example.impl.presentation.fragments.film.adapter.filmAdapter.FilmElement
-import com.example.impl.presentation.fragments.film.adapter.slideAdapter.SliderPagerAdapter
-import com.example.impl.presentation.fragments.film.filmDetails.FilmDetailFragment
+import com.example.impl.presentation.fragments.adapter.filmAdapter.FilmAdapter
+import com.example.impl.presentation.fragments.adapter.filmAdapter.FilmElement
+import com.example.impl.presentation.fragments.adapter.slideAdapter.SliderPagerAdapter
+import com.example.impl.presentation.fragments.filmDetails.FilmDetailFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
@@ -130,10 +130,10 @@ class FilmsFragment : Fragment(), KoinComponent {
     private fun onTrailerClick(trailerLink: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerLink))
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra("force_fullscreen", true)
+        intent.putExtra(FORCE_FULLSCREEN, true)
         intent.setClassName(
-            "com.google.android.youtube",
-            "com.google.android.youtube.WatchActivity"
+            resources.getString(R.string.intent_youtube_name),
+            resources.getString(R.string.youtube_class_name)
         )
 
         try {
@@ -193,8 +193,10 @@ class FilmsFragment : Fragment(), KoinComponent {
         timer.cancel()
     }
 
+
     companion object {
 
+        const val FORCE_FULLSCREEN = "force_fullscreen"
         const val ACTION = "боевик"
         const val HORROR = "ужасы"
     }
